@@ -19,8 +19,7 @@ tracing = "0.1"
 
 # Event sourcing
 cqrs-es = "0.4.12"
-#sqlite-es = { git = "https://github.com/kairsas/sqlite-es", rev = "5441811" }
-sqlite-es = { path = "../../sqlite-es" }
+sqlite-es = { git = "https://github.com/kairsas/sqlite-es", rev = "c9b27a0" }
 
 [dev-dependencies]
 assert_cmd = "2.0.14"

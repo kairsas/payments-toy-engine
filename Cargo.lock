@@ -1676,6 +1676,7 @@ dependencies = [
 [[package]]
 name = "sqlite-es"
 version = "0.1.0"
+source = "git+https://github.com/kairsas/sqlite-es?rev=c9b27a0#c9b27a0d50862c3b27c84e46e02a7abeeeef019f"
 dependencies = [
  "async-trait",
  "cqrs-es",
