@@ -1,0 +1,27 @@
+[package]
+name = "payments-toy-engine"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-trait = "0.1"
+color-eyre = "0.6.3"
+csv = "1.4.0"
+derive_more = { version = "2", features = ["from", "display", "into"] }
+futures = "0.3.19"
+rust_decimal = { version = "1.25.0", features = ["serde", "serde-float", "macros"] }
+serde = { version = "1.0.221", features = ["derive"] }
+serde_json = "1.0"
+shrinkwraprs = "0.3.0"
+sqlx = { version = "0.8", features = ["sqlite", "json"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tracing = "0.1"
+
+# Event sourcing
+cqrs-es = "0.4.12"
+#sqlite-es = { git = "https://github.com/kairsas/sqlite-es", rev = "5441811" }
+sqlite-es = { path = "../../sqlite-es" }
+
+[dev-dependencies]
+assert_cmd = "2.0.14"
+predicates = "3.1.0"
