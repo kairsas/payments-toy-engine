@@ -14,7 +14,7 @@ It's implementation is quite naive, but could be turned into SAGA like thing for
 
 All the processing is implemented in a way where one process (`sender`) reads all the csv rows and publishes/distributes to specific `receivers` which are pinned to some client id (like consumer groups in Kafka).
 Those receivers then initiate `PaymentService` steps.
-This parallel processing logic in [main](src/main.rs).
+This parallel processing logic resides in [main](src/main.rs).
 
 Key code sections:
 * [Account Command](src/domain/account/command.rs#L6)
