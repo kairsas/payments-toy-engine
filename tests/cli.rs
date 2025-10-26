@@ -71,3 +71,20 @@ fn dispute_reflecting() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn chargeback_reflecting() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+
+    cmd.arg("sample/transaction_chargeback.csv");
+
+    cmd.assert()
+        .stdout(
+            r#"client,available,held,total,locked
+1,1.0,0.0,1.0,true
+"#,
+        )
+        .stderr("");
+
+    Ok(())
+}
