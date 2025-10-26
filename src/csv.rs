@@ -31,6 +31,7 @@ pub fn read_input<D: serde::de::DeserializeOwned>(
 ) -> Result<impl Iterator<Item = Result<D>>> {
     let reader = ReaderBuilder::new()
         .trim(Trim::All)
+        .flexible(true)
         .from_path(file_path)
         .map_err(|e| eyre!("Could not read input file: {}", e))?;
 
