@@ -14,7 +14,7 @@ use crate::domain::{
 };
 
 // Aggregate
-#[derive(Serialize, Default, Deserialize)]
+#[derive(Debug, Serialize, Default, Deserialize)]
 pub struct Transaction {
     recorded: bool,
     pub tx_type: Option<TxType>,
@@ -47,8 +47,9 @@ impl Aggregate for Transaction {
 
     fn apply(&mut self, event: Self::Event) {
         match event {
-            TransactionEvent::TransactionRecorded(_) => {
+            TransactionEvent::TransactionRecorded(p) => {
                 self.recorded = true;
+                self.amount = *p.amount;
             }
         }
     }
