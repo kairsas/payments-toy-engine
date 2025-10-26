@@ -60,7 +60,7 @@ impl View<Account> for AccountView {
 #[allow(clippy::expect_used)] // without this working, it's a show over
 pub async fn init_accounts_table(sqlite_pool: &Pool<Sqlite>) {
     let _ = sqlx::query(
-        "CREATE TABLE accounts
+        "CREATE TABLE IF NOT EXISTS accounts
             (
                 view_id text                        NOT NULL,
                 version bigint CHECK (version >= 0) NOT NULL,
@@ -74,7 +74,9 @@ pub async fn init_accounts_table(sqlite_pool: &Pool<Sqlite>) {
 }
 
 pub async fn print_accounts_csv(sqlite_pool: &SqlitePool) -> Result<()> {
-    let mut csv_writer = WriterBuilder::new().from_writer(io::stdout());
+    let mut csv_writer = WriterBuilder::new()
+        .has_headers(false)
+        .from_writer(io::stdout());
 
     let mut query = sqlx::query("select payload from accounts").fetch(sqlite_pool);
     while let Some(row) = query.try_next().await.map_err(|e| eyre!(e))? {
