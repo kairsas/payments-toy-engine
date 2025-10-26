@@ -122,7 +122,7 @@ mod tests {
 
         let n_clients = 1000;
 
-        for i in 1..10000 {
+        for i in 1..200000 {
             let client_id = (i % n_clients + 1).to_string();
 
             let deposit = CsvPaymentRecord {

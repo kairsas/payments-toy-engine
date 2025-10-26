@@ -25,17 +25,17 @@ use crate::{
     query::account::{AccountQueryRepository, AccountView, init_accounts_table},
 };
 
-// This is an orchestrator service coordinating actions between 2 domains - Transaction and Account.
-// It should be treated as a naive SAGAs implementation, so should be improved for a production use -
-// to have atomic steps and backed by storage for the redundancy.
-pub struct Payments {
+/// This is an orchestrator service coordinating actions between 2 domains - Transaction and Account.
+/// It should be treated as a naive SAGAs implementation, so should be improved for a production use -
+/// to have atomic steps and backed by storage for the redundancy.
+pub struct PaymentsService {
     account_cqrs: CqrsFramework<Account, PersistedEventStore<SqliteEventRepository, Account>>,
     transaction_cqrs:
         CqrsFramework<Transaction, PersistedEventStore<SqliteEventRepository, Transaction>>,
     transactions_store: PersistedEventStore<SqliteEventRepository, Transaction>,
 }
 
-impl Payments {
+impl PaymentsService {
     pub async fn new(sqlite_pool: Pool<Sqlite>) -> Self {
         #[allow(clippy::expect_used)]
         init_tables(&sqlite_pool)
@@ -57,7 +57,7 @@ impl Payments {
         let transactions_store =
             PersistedEventStore::new_aggregate_store(SqliteEventRepository::new(sqlite_pool));
 
-        Payments {
+        PaymentsService {
             account_cqrs,
             transaction_cqrs,
             transactions_store,
