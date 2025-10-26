@@ -54,3 +54,20 @@ fn cli_no_input_file_passed() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn dispute_reflecting() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+
+    cmd.arg("sample/transaction_dispute.csv");
+
+    cmd.assert()
+        .stdout(
+            r#"client,available,held,total,locked
+1,0.0,1.0,1.0,false
+"#,
+        )
+        .stderr("");
+
+    Ok(())
+}

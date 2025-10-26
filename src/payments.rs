@@ -5,6 +5,7 @@ use cqrs_es::{CqrsFramework, EventStore, persist::PersistedEventStore};
 use rust_decimal::Decimal;
 use sqlite_es::{SqliteEventRepository, SqliteViewRepository, init_tables, sqlite_aggregate_cqrs};
 use sqlx::{Pool, Sqlite};
+use tracing::debug;
 
 use crate::{
     csv,
@@ -138,7 +139,10 @@ impl PaymentsService {
     }
 
     pub async fn handle_dispute_funds(&self, r: csv::CsvPaymentRecord) -> Result<()> {
-        let transaction = require_transaction(&self.transactions_store, &r.tx_id).await?;
+        debug!("Handling dispute: {:?}", r);
+        let transaction = require_transaction(&self.transactions_store, &r.tx_id)
+            .await
+            .inspect_err(|e| debug!("Error retrieving tx: {}", e))?;
 
         #[allow(clippy::collapsible_if)] // collapsable 'if' can be unstable
         if let Some(tx_type) = transaction.tx_type {
